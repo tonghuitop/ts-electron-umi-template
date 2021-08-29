@@ -1,0 +1,93 @@
+{
+  "name": "ts-electron-umi",
+  "version": "1.0.0",
+  "description": "an example based on ts + electron + umi",
+  "main": "./dist/main/main.js",
+  "private": true,
+  "build": {
+    "productName": "electron",
+    "files": [
+      "dist/",
+      "node_modules/",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "directories": {
+      "output": "release"
+    },
+    "appId": "top.tonghuiwu.demo",
+    "asar": false
+  },
+  "scripts": {
+    "dev": "concurrently \"npm run dev:render\" \"npm run dev:main\"",
+    "dev:render": "cross-env APP_ROOT=src/renderer umi dev",
+    "dev:main": "webpack -c ./config/webpack.dev.config.ts -w",
+    "build": "rm -rf dist && npm run build:render && npm run build:main ",
+    "build:render": "cross-env APP_ROOT=src/renderer umi build",
+    "build:main": "webpack -c ./config/webpack.prod.config.ts",
+    "debug:main": "electron --inspect=5858 -w ./dist/main/main.js",
+    "dmg": "npm run build && electron-builder --dir",
+    "exe": "npm run build && electron-builder --win",
+    "dist": "npm run build && electron-builder",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@ant-design/pro-layout": "^6.5.0",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/node": "^16.7.2",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/webpack": "^5.28.0",
+    "@types/webpack-node-externals": "^2.5.2",
+    "@umijs/preset-react": "1.x",
+    "@umijs/test": "^3.5.17",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "concurrently": "^6.2.1",
+    "cross-env": "^7.0.3",
+    "electron": "^13.2.2",
+    "electron-builder": "^22.11.7",
+    "lint-staged": "^10.0.7",
+    "node-loader": "^2.0.0",
+    "prettier": "^2.2.0",
+    "react": "17.x",
+    "react-dom": "17.x",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2",
+    "umi": "^3.5.17",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-electron-reload": "^1.0.1",
+    "webpack-merge": "^5.8.0",
+    "webpack-node-externals": "^3.0.0",
+    "yorkie": "^2.0.0"
+  }
+}
